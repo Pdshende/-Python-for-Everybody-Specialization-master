@@ -5,16 +5,22 @@ in a way that you can examine the HTTP Response headers.
 
 http://data.pr4e.org/intro-short.txt
 '''
+import time
 import socket
+start  = time.time()
 
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-mysock.connect(('data.pr4e.orgcmd', 80))
-mysock.send('GET http://data.pr4e.org/intro-short.txt HTTP/1.0\n\n')
+mysock.connect(('data.pr4e.org', 80))
+cmd = 'GET http://data.pr4e.org/intro-short.txt HTTP/1.0\r\n\r\n'.encode()
+mysock.send(cmd)
 
 while True:
     data = mysock.recv(512)
-    if ( len(data) < 1 ) :
+    if (len(data) < 1):
         break
-    print data;
-
+    print(data.decode(),end='')
 mysock.close()
+end = time.time()
+
+print("The total excecution Time for this code is sec", (end-start))
+
