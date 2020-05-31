@@ -1,26 +1,19 @@
-'''
-In this assignment you will read through and parse a file with text and numbers.
-You will extractall the numbers in the file and compute the sum of the numbers.
-'''
+import time
 import re
+start  = time.time()
+file = open("regex_sum_417433.txt",'r')
+sum = 0
+for line in file:
+    f = re.findall('[0-9]+',line)
+    for num in f:
+        if int(num) >= 0:
+            sum = sum+int(num)
 
-fname = raw_input('Enter File name :')
+print(list)
+end = time.time()
 
-handle = open(fname)
+print("The total excecution Time for this code is sec", (end-start))
 
-sum=0
 
-count = 0
-
-for line in handle:
-	
-	f = re.findall('[0-9]+',line)
-	
-	for num in f:
-		
-		if num >= [0]:
-			
-			count = count + 1
-			sum = sum + int(num)
-		
-print 'There are',count,'values with a sum =',sum
+#Output : -
+# Answer = 331308
