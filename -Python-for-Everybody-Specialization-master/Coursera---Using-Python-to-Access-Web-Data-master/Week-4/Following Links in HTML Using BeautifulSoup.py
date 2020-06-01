@@ -14,25 +14,54 @@ Find the link at position 18 (the first name is 1). Follow that link. Repeat thi
 Hint: The first character of the name of the last page that you will load is: L
 '''
 
-import urllib
+import time
+start = time.time()
+import socket
+import urllib.request
 from bs4 import BeautifulSoup
-url = raw_input('Enter Url: ')
-count = int(raw_input("Enter count: "))
-position = int(raw_input("Enter position:"))
+url = input('Enter url : - ')
+count = int(input('Enter count: - '))
+position = int(input('Enter position: - '))
+html = urllib.request.urlopen(url).read()
 for i in range(count):
-    html = urllib.urlopen(url).read()
-    soup = BeautifulSoup(html)
-
+    html = urllib.request.urlopen(url).read()
+    soup = BeautifulSoup(html,"html.parser")
     tags = soup('a')
     s = []
     t = []
     for tag in tags:
-        x = tag.get('href', None)
+        x = tag.get('href',None)
         s.append(x)
         y = tag.text
         t.append(y)
-    
-    print s[position-1]
-    print t[position-1]
+    print(s[position - 1])
+    print(t[position - 1])
     url = s[position-1]
 
+end = time.time()
+
+print("The total excecution Time for this code is sec", (end-start))
+
+
+'''
+Output: -
+Enter url : - http://py4e-data.dr-chuck.net/known_by_Tereza.html
+Enter count: - 7
+Enter position: - 18
+http://py4e-data.dr-chuck.net/known_by_Lacey.html
+Lacey
+http://py4e-data.dr-chuck.net/known_by_Ana.html
+Ana
+http://py4e-data.dr-chuck.net/known_by_Bret.html
+Bret
+http://py4e-data.dr-chuck.net/known_by_Coupar.html
+Coupar
+http://py4e-data.dr-chuck.net/known_by_Leonard.html
+Leonard
+http://py4e-data.dr-chuck.net/known_by_Monty.html
+Monty
+http://py4e-data.dr-chuck.net/known_by_Ashlee.html
+Ashlee
+The total excecution Time for this code is sec 8.333441495895386
+
+'''
