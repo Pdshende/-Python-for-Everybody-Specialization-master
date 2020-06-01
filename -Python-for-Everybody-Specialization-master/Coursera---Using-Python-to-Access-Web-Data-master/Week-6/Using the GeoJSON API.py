@@ -10,32 +10,38 @@ http://python-data.dr-chuck.net/geojson
 This API uses the same parameters (sensor and address) as the Google API. This API also has no rate limit so you can test as often as you like. If you visit the URL with no parameters, you get a list of all of the address values which can be used with this API.
 To call the API, you need to provide a sensor=false parameter and the address that you are requesting as the address= parameter that is properly URL encoded using the urllib.urlencode() fuction as shown in http://www.pythonlearn.com/code/geojson.py
 '''
-import urllib
+import time
+start = time.time()
+import urllib.request, urllib.parse, urllib.error
 import json
 
-serviceurl = "http://python-data.dr-chuck.net/geojson?"
+#Api
+api = 'http://py4e-data.dr-chuck.net/geojson?'
 
-while True:
+#Input data
+link = input('Enter location: ')
+link = api + urllib.parse.urlencode({'address':link})
+print('Retrieving', link)
 
-    address = raw_input("Enter location: ")
+html = urllib.request.urlopen(link).read().decode()
+print('Retrieved', len(html), 'characters')
 
-    if len(address) < 1 : break
+try:
+    js = json.loads(html)
+except:
+    js = None
 
-    url = serviceurl + urllib.urlencode({'sensor':'false','address':address})
+placeId = js['results'][0]['place_id']
+print('Place id', placeId)
+end = time.time()
 
-    print 'Retrieving',url
+print("The total excecution Time for this code is sec", (end-start))
 
-    uh =urllib.urlopen(url)
-    data = uh.read()
-    print 'Retrived',len(data),'characters'
+'''
+Enter location: Simon Fraser University
+Retrieving http://py4e-data.dr-chuck.net/geojson?address=Simon+Fraser+University
+Retrieved 2365 characters
+Place id ChIJa8FTJPrzBFMR8dy-IfiXGMA
+The total excecution Time for this code is sec 2.1262848377227783
 
-    try: js = json.loads(str(data))
-    except: js = None
-    if 'status' not in js or js['status'] != 'OK':
-        print '==== Failure To Retrieve ===='
-        print data
-        continue
-
-    placeid = js["results"][0]['place_id']
-    print "Place id",placeid
-
+'''
