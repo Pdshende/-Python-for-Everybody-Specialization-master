@@ -7,11 +7,13 @@ Sample data: http://python-data.dr-chuck.net/comments_42.xml (Sum=2553)
 Actual data: http://python-data.dr-chuck.net/comments_353536.xml (Sum ends with 90)
 You do not need to save these files to your folder since your program will read the data directly from the URL. Note: Each student will have a distinct data url for the assignment - so only use your own data url for analysis.
 '''
-import urllib
+import time
+start = time.time()
+import urllib.request
 import xml.etree.ElementTree as ET
 
-url = raw_input("Enter - ")
-uh = urllib.urlopen(url)
+url = input("Enter - ")
+uh = urllib.request.urlopen(url)
 data = uh.read()
 
 tree = ET.fromstring(data)
@@ -23,5 +25,17 @@ for item in results:
     count =count+1
     sum = sum+x
 
-print "Count : ",count
-print "Sum : ",sum
+print ("Count : ",count)
+print ("Sum : ",sum)
+end = time.time()
+
+print("The total excecution Time for this code is sec", (end-start))
+
+'''
+Output: -
+Enter - http://py4e-data.dr-chuck.net/comments_417437.xml
+Count :  50
+Sum :  2521
+The total excecution Time for this code is sec 2.4297125339508057
+
+'''
