@@ -16,13 +16,16 @@ You do not need to save these files to your folder since your program
 will read the data directly from the URL. Note: Each student will have a
 distinct data url for the assignment - so only use your own data url for analysis.
 '''
-import urllib
+import time
+#import socket
+start  = time.time()
+import urllib.request
 from bs4 import BeautifulSoup
 
-url = raw_input('Enter - ')
+url = input('Enter - ')
 
-html = urllib.urlopen(url).read()
-soup = BeautifulSoup(html)
+html = urllib.request.urlopen(url).read()
+soup = BeautifulSoup(html,"html.parser")
 tag = soup("span")
 count=0
 sum=0
@@ -30,5 +33,16 @@ for i in tag:
 	x=int(i.text)
 	count+=1
 	sum = sum + x
-print count
-print sum
+print ('Count = ',count)
+print ('Sum =' ,sum)
+
+end = time.time()
+
+print("The total excecution Time for this code is sec", (end-start))
+
+
+#Output: - 
+#Enter - http://py4e-data.dr-chuck.net/comments_417435.html
+#Count =  50
+#Sum = 2434
+#The total excecution Time for this code is sec 65.42838597297668
