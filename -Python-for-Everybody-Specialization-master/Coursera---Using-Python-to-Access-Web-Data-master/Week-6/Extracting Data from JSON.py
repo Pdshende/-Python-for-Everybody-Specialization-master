@@ -6,22 +6,42 @@ Sample data: http://python-data.dr-chuck.net/comments_42.json (Sum=2553)
 Actual data: http://python-data.dr-chuck.net/comments_353540.json (Sum ends with 71)
 You do not need to save these files to your folder since your program will read the data directly from the URL. Note: Each student will have a distinct data url for the assignment - so only use your own data url for analysis.
 '''
+import time
+start = time.time()
+import urllib.request, urllib.parse, urllib.error
 import json
-import urllib
 
-count = 0
-sum = 0
-url = raw_input("Enter Url - ")
+#Data collection
+link = input('Enter location: ')
+print('Retrieving', link)
 
-data = urllib.urlopen(url).read()
+html = urllib.request.urlopen(link).read().decode()
+print('Retrieved', len(html), 'characters')
 
-print data
+try:
+    js = json.loads(html)
+except:
+    js = None
 
-info = json.loads(str(data))
+cn = 0
+sm = 0
+for item in js['comments']:
+    cn += 1
+    sm += int(item['count'])
 
-for i in info['comments']:
-    count = count+1
-    sum = sum + i['count']
-print "Sum : ",sum   
-print "count : ",count
+print('Count:', cn)
+print('Sum:', sm)
+end = time.time()
 
+print("The total excecution Time for this code is sec", (end-start))
+
+'''
+Output: - 
+Enter location: http://py4e-data.dr-chuck.net/comments_417438.json
+Retrieving http://py4e-data.dr-chuck.net/comments_417438.json
+Retrieved 2717 characters
+Count: 50
+Sum: 2178
+The total excecution Time for this code is sec 2.7438461780548096
+
+'''
